@@ -1,11 +1,14 @@
 import * as React from "react";
 import './App.css';
+import { ethers } from "ethers"; 
 import { useEffect, useState } from "react";
-require("dotenv").config();
+import axios from 'axios';
 
 export default function App() {
   //variable for save current user account
   const [currentAccount, setCurrentAccount] = useState("");
+  const [tokens, setTokens]= useState([]);
+  const [errorTokenCall, setErrorTokenCall] = useState("");
   const [inputValue, setInputValue] = useState("");
 
 
@@ -65,10 +68,17 @@ export default function App() {
   const searchValue = () => {
     const wantNft = "true";
     const chainID = "137";
-    fetch(`https://api.covalenthq.com/v1/${chainID}/address/${currentAccount}/balances_v2/?nft=${wantNft}&key=${process.env.covalentApiKey}`)
-	.then(response => response.json())
-	.then(data => console.log(data))
-	.catch(err => console.error(err));
+    axios.get(`https://api.covalenthq.com/v1/${chainID}/address/${currentAccount}/balances_v2/?nft=${wantNft}&key=${process.env.REACT_APP_COVALENT_API_KEY}`)
+	.then((res) => {
+    console.log(res.data.data.items);
+    const list = res.data.data.items.filter(token => token.balance !== "0")
+    console.log("list", list);
+    setTokens(list);
+  })
+	.catch((err) => {
+    console.error(err);
+    setErrorTokenCall(err)
+  });
   }
   
   return (
@@ -101,9 +111,45 @@ export default function App() {
             <p>NFT yes no</p>
             <button className="waveButton" onClick={searchValue}>Search</button>
           </>
-        )
+        )}
 
-        }
+        {tokens.map((token, index) => {
+          let balance = 0;
+          let images = [];
+
+          //filter diff token decimals for good showing
+          if(token.contract_decimals === 18){
+            balance = ethers.utils.formatEther(token.balance);
+          } else if (token.contract_decimals === 6) {
+            balance = token.balance / 1000000;
+          } else {
+            balance = token.balance;
+
+          }
+          
+          //generate image list for nfts
+          if(token.nft_data !== null) {
+            console.log("So ->", token.nft_data[0].external_data.image);
+            token.nft_data.forEach((nft) => {
+              console.log(nft.external_data.image_256);
+              images.push(nft.external_data.image_256);
+            });
+          } else {
+            images.push(token.logo_url);
+          }
+          return (
+            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
+              <div>Token Name: {token.contract_name}</div>
+              <div>{token.contract_ticker_symbol}</div>
+              {images.map((img, index) => {
+                return (
+                  <img src={img} alt={token.contract_address} />
+                )
+              })}
+              <div>Value: {balance}</div>
+              </div>
+          )
+        })}
       </div>
     </div>
   );
