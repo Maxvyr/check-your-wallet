@@ -16,10 +16,8 @@ export default function App() {
       const { ethereum } = window;
       
       if (!ethereum) {
-        console.log("Make sure you have metamask!");
+        alert("You need to download Metamask");
         return;
-      } else {
-        console.log("We have the ethereum object", ethereum);
       }
       
       //ask metamask if eth account exist
@@ -50,7 +48,6 @@ export default function App() {
       console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]); 
     } catch (err){
-      console.log(err);
     }
   }
 
@@ -87,6 +84,7 @@ export default function App() {
         {/* if no current wallet connect */}
         {!currentAccount && (
           <>
+            <div className="sized-box"></div>
             <button className="waveButton" onClick={connectWallet}>
               Connect Wallet
             </button>
@@ -116,9 +114,7 @@ export default function App() {
           
           //generate image list for nfts
           if(token.nft_data !== null) {
-            console.log("So ->", token.nft_data[0].external_data.image);
             token.nft_data.forEach((nft) => {
-              console.log(nft.external_data.image_256);
               images.push(nft.external_data.image_256);
             });
           } else {
