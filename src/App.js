@@ -64,7 +64,8 @@ export default function App() {
 
   const searchValue = () => {
     const wantNft = "true";
-    fetch(`https://api.covalenthq.com/v1/137/address/${currentAccount}/balances_v2/?nft=${wantNft}&key=${process.env.covalentApiKey}`)
+    const chainID = "137";
+    fetch(`https://api.covalenthq.com/v1/${chainID}/address/${currentAccount}/balances_v2/?nft=${wantNft}&key=${process.env.covalentApiKey}`)
 	.then(response => response.json())
 	.then(data => console.log(data))
 	.catch(err => console.error(err));
