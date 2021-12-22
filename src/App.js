@@ -8,7 +8,6 @@ export default function App() {
   //variable for save current user account
   const [currentAccount, setCurrentAccount] = useState("");
   const [tokens, setTokens]= useState([]);
-  const [errorTokenCall, setErrorTokenCall] = useState("");
 
 
   const checkIfWalletIsConnected = async () => {
@@ -30,8 +29,8 @@ export default function App() {
       } else {
         console.log("No authorized account found")
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -45,9 +44,9 @@ export default function App() {
 
       //ask metamask to connect
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-      console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]); 
     } catch (err){
+      console.error(err);
     }
   }
 
@@ -67,7 +66,6 @@ export default function App() {
   })
 	.catch((err) => {
     console.error(err);
-    setErrorTokenCall(err)
   });
   }
   
