@@ -9,7 +9,6 @@ export default function App() {
   const [currentAccount, setCurrentAccount] = useState("");
   const [tokens, setTokens]= useState([]);
   const [errorTokenCall, setErrorTokenCall] = useState("");
-  const [inputValue, setInputValue] = useState("");
 
 
   const checkIfWalletIsConnected = async () => {
@@ -59,12 +58,6 @@ export default function App() {
       checkIfWalletIsConnected();
   }, []);
 
-  const onInputChange = (event) => {
-    // recover value inside input and call useEffect
-    const { value }= event.target;
-    setInputValue(value);
-  }
-
   const searchValue = () => {
     const wantNft = "true";
     const chainID = "137";
@@ -94,11 +87,6 @@ export default function App() {
         {/* if no current wallet connect */}
         {!currentAccount && (
           <>
-            <div className="input-container"> 
-              <input type="text" placeholder="Enter a wallet address" value={inputValue} onChange={onInputChange}/>
-              <button type="submit" className="waveButton">Show me</button>
-            </div>
-            <div className="sized-box"></div>
             <button className="waveButton" onClick={connectWallet}>
               Connect Wallet
             </button>
@@ -107,8 +95,7 @@ export default function App() {
 
         {currentAccount && (
           <>
-            <p>Wich chain?</p> {/* menu déroulant */}
-            <p>NFT yes no</p>
+            <p>Add a desc</p> {/* menu déroulant */}
             <button className="waveButton" onClick={searchValue}>Search</button>
           </>
         )}
