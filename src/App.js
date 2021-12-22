@@ -1,6 +1,7 @@
 import * as React from "react";
 import './App.css';
 import { useEffect, useState } from "react";
+require("dotenv").config();
 
 export default function App() {
   //variable for save current user account
@@ -60,6 +61,14 @@ export default function App() {
     const { value }= event.target;
     setInputValue(value);
   }
+
+  const searchValue = () => {
+    const wantNft = "true";
+    fetch(`https://api.covalenthq.com/v1/137/address/${currentAccount}/balances_v2/?nft=${wantNft}&key=${process.env.covalentApiKey}`)
+	.then(response => response.json())
+	.then(data => console.log(data))
+	.catch(err => console.error(err));
+  }
   
   return (
     <div className="mainContainer">
@@ -85,15 +94,15 @@ export default function App() {
           </>
         )}
 
-        {/* {allWaves.map((wave, index) => {
-          return (
-            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
-              <div>Address: {wave.address}</div>
-              <div>Address: {wave.timestamp.toString()}</div>
-              <div>Address: {wave.message}</div>
-              </div>
-          )
-        })} */}
+        {currentAccount && (
+          <>
+            <p>Wich chain?</p> {/* menu déroulant */}
+            <p>NFT yes no</p>
+            <button className="waveButton" onClick={searchValue}>Search</button>
+          </>
+        )
+
+        }
       </div>
     </div>
   );
