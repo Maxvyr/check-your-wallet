@@ -95,42 +95,51 @@ export default function App() {
             <button className="waveButton" onClick={searchValue}>Search</button>
           </>
         )}
+        <div>
+          {tokens.map((token, index) => {
+            let balance = 0;
+            let images = [];
 
-        {tokens.map((token, index) => {
-          let balance = 0;
-          let images = [];
+            //filter diff token decimals for good showing
+            if(token.contract_decimals === 18){
+              balance = ethers.utils.formatEther(token.balance);
+            } else if (token.contract_decimals === 6) {
+              balance = token.balance / 1000000;
+            } else {
+              balance = token.balance;
 
-          //filter diff token decimals for good showing
-          if(token.contract_decimals === 18){
-            balance = ethers.utils.formatEther(token.balance);
-          } else if (token.contract_decimals === 6) {
-            balance = token.balance / 1000000;
-          } else {
-            balance = token.balance;
-
-          }
-          
-          //generate image list for nfts
-          if(token.nft_data !== null) {
-            token.nft_data.forEach((nft) => {
-              images.push(nft.external_data.image_256);
-            });
-          } else {
-            images.push(token.logo_url);
-          }
-          return (
-            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
-              <div>Token Name: {token.contract_name}</div>
-              <div>{token.contract_ticker_symbol}</div>
-              {images.map((img, index) => {
-                return (
-                  <img src={img} alt={token.contract_address} />
-                )
-              })}
-              <div>Value: {balance}</div>
+            }
+            
+            //generate image list for nfts
+            if(token.nft_data !== null) {
+              token.nft_data.forEach((nft) => {
+                images.push(nft.external_data.image_256);
+              });
+            } 
+            else {
+              images.push(token.logo_url);
+            }
+            return (
+              <div key={index} style={{ 
+                backgroundColor: "#c8e8f5", 
+                marginTop: "16px", 
+                padding: "8px", 
+                width: "80px", 
+              }}>
+                <div>Token Name: {token.contract_name}</div>
+                <div>{token.contract_ticker_symbol}</div>
+                {images.map((img, index) => {
+                    return (
+                        <img src={img} alt={token.contract_address} />
+                    )
+                })}
+                <div>Value: {balance}</div>
               </div>
-          )
-        })}
+            )
+          })}
+
+          
+        </div>
       </div>
     </div>
   );
