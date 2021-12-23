@@ -50,52 +50,30 @@ export default function App() {
     }
   }
 
-  useEffect(() => {
-      checkIfWalletIsConnected();
-  }, []);
+  const renderButtonNotConnected = () => (
+      <>
+        <div className="sized-box"></div>
+        <button className="waveButton" onClick={connectWallet}>
+          Connect Wallet
+        </button>
+      </>
+  )
 
-  const searchValue = () => {
-    const wantNft = "true";
-    const chainID = "137";
-    axios.get(`https://api.covalenthq.com/v1/${chainID}/address/${currentAccount}/balances_v2/?nft=${wantNft}&key=${process.env.REACT_APP_COVALENT_API_KEY}`)
-	.then((res) => {
-    console.log(res.data.data.items);
-    const list = res.data.data.items.filter(token => token.balance !== "0")
-    console.log("list", list);
-    setTokens(list);
-  })
-	.catch((err) => {
-    console.error(err);
-  });
+  const renderButtonConnected = () => (
+      <>
+        <div className="sized-box"></div>
+        <button className="waveButton" onClick={searchValue}>Check My Wallet</button>
+      </>
+  )
+
+  const showEmpty = () => {
+    <>
+      <p>Nothing to show</p>
+    </>
   }
-  
-  return (
-    <div className="mainContainer">
 
-      <div className="dataContainer">
-        <div className="header">
-        👋 Hey! 👋
-        </div>
-        <div className="bio">
-          You want to show all TOKEN and NFT are in your wallet, or some other, just enter public or connect your wallet (only metamask)
-        </div>
-        {/* if no current wallet connect */}
-        {!currentAccount && (
-          <>
-            <div className="sized-box"></div>
-            <button className="waveButton" onClick={connectWallet}>
-              Connect Wallet
-            </button>
-          </>
-        )}
-
-        {currentAccount && (
-          <>
-            <p>Add a desc</p> {/* menu déroulant */}
-            <button className="waveButton" onClick={searchValue}>Search</button>
-          </>
-        )}
-        <div>
+  const showWalletContent = () => (
+    <div>
           {tokens.map((token, index) => {
             let balance = 0;
             let images = [];
@@ -123,8 +101,7 @@ export default function App() {
               <div key={index} style={{ 
                 backgroundColor: "#c8e8f5", 
                 marginTop: "16px", 
-                padding: "8px", 
-                width: "80px", 
+                padding: "8px",  
               }}>
                 <div>Token Name: {token.contract_name}</div>
                 <div>{token.contract_ticker_symbol}</div>
@@ -140,6 +117,43 @@ export default function App() {
 
           
         </div>
+  )
+
+  useEffect(() => {
+      checkIfWalletIsConnected();
+  }, []);
+
+  const searchValue = () => {
+    const wantNft = "true";
+    const chainID = "137";
+    axios.get(`https://api.covalenthq.com/v1/${chainID}/address/${currentAccount}/balances_v2/?nft=${wantNft}&key=${process.env.REACT_APP_COVALENT_API_KEY}`)
+	.then((res) => {
+    console.log(res.data.data.items);
+    const list = res.data.data.items.filter(token => token.balance !== "0")
+    console.log("list", list);
+    setTokens(list);
+  })
+	.catch((err) => {
+    console.error(err);
+  });
+  }
+  
+  return (
+    <div className="mainContainer">
+
+      <div className="dataContainer">
+        <div className="header">
+        🙈 TOKENs and NFTs! 🙈
+        </div>
+        <div className="bio">
+          You want to see all TOKEN and NFT are in your wallet on POLYGON/MATIC, you need to connect your wallet (only metamask now)
+        </div>
+        {/* if no current wallet connect */}
+        {!currentAccount && renderButtonNotConnected()}
+        {currentAccount && renderButtonConnected()}
+
+        {!tokens && showEmpty()}
+        {tokens && showWalletContent()}
       </div>
     </div>
   );
