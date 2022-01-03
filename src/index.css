@@ -11,16 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.header {
-  color: rgb(124, 124, 238);
-}
-
-.sized-box {
-  height: 10px;
-}
-
-.waveButton {
-  background-color: rgb(124, 124, 238);
-  color: antiquewhite;
-}

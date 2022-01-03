@@ -53,7 +53,7 @@ export default function App() {
   const renderButtonNotConnected = () => (
       <>
         <div className="sized-box"></div>
-        <button className="waveButton" onClick={connectWallet}>
+        <button className="wave-button" onClick={connectWallet}>
           Connect Wallet
         </button>
       </>
@@ -62,7 +62,7 @@ export default function App() {
   const renderButtonConnected = () => (
       <>
         <div className="sized-box"></div>
-        <button className="waveButton" onClick={searchValue}>Check My Wallet</button>
+        <button className="wave-button" onClick={searchValue}>Check My Wallet</button>
       </>
   )
 
@@ -139,14 +139,13 @@ export default function App() {
   }
   
   return (
-    <div className="mainContainer">
-
-      <div className="dataContainer">
+    <div className="main-container">
+      <div className="data-container">
         <div className="header">
         🙈 TOKENs and NFTs! 🙈
         </div>
         <div className="bio">
-          You want to see all TOKEN and NFT are in your wallet on POLYGON/MATIC, you need to connect your wallet (only metamask now)
+          You want to see all TOKEN and NFT are in your wallet on POLYGON/MATIC, you need to connect your wallet (only metamask)
         </div>
         {/* if no current wallet connect */}
         {!currentAccount && renderButtonNotConnected()}
