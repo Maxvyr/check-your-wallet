@@ -98,13 +98,8 @@ export default function App() {
               images.push(token.logo_url);
             }
             return (
-              <div key={index} style={{ 
-                backgroundColor: "#c8e8f5", 
-                marginTop: "16px", 
-                padding: "8px",  
-              }}>
-                <div>Token Name: {token.contract_name}</div>
-                <div>{token.contract_ticker_symbol}</div>
+              <div className="box-token" key={index} >
+                <div>Token Name: {token.contract_name} - {token.contract_ticker_symbol}</div>
                 {images.map((img, index) => {
                     return (
                         <img src={img} alt={token.contract_address} />

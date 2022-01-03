@@ -49,3 +49,9 @@
   display:block;
   width: 100%;
 }
+
+.box-token {
+  background-color: rgb(197 197 255); 
+  margin-top: 16px; 
+  padding: 8px; 
+}
