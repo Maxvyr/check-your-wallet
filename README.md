@@ -8,7 +8,7 @@
 
 ## Descrpition
 
-This a simple web app , for look all your crypto and nft inside your wallet on POLYGON/MATIC. Today the only wallet recognize is Metamask.
+This a simple web app , for look all your crypto and nft inside your wallet on Aurora Chain. Today the only wallet recognize is Metamask.
 
 ## Next Version
 
