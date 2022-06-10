@@ -21,7 +21,7 @@ Of course is welcome if you want to help this project ;)
 
 ## Crypto Tips
 
-![https://i.imgur.com/wuW30D4.png](https://i.imgur.com/wuW30D4.png)
+![https://i.imgur.com/wuW30D5.png](https://i.imgur.com/wuW30D5.png)
 
 ## Contact Me
 
